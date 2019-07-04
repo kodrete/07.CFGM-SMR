@@ -1,0 +1,16 @@
+git add .				--> Añade todas las cosas modificadas al ÍNDICE (no hace commit de nada, solo lo registra)
+git add pepito.txt			--> Añade este fichero al registro ÍNDICE
+git reset .				--> Quita del registro (si pones un punto quita todo, si pones el nombre de un fichero, solo ese)
+
+git commit -m "DESCRIPCION"		--> Genera un commit, una versión, una instantanea, un tag, ...
+git commit --amend -m "DESCRIPCION"	--> Corrige el commit anterior
+
+git log					--> LOG de commits
+git status				--> Información del directorio y sus ficheros respecto a GIT
+
+git diff				--> Diferencias entre los ficheros actuales y el último commit
+
+git mv
+git rm					--> Si solo hacemos mv o rm en linux cambia el nombre en el directorio local pero no en el ÍNDICE
+
+git checkout nombrefich			--> Descarta cambios y vuelve al último commit
