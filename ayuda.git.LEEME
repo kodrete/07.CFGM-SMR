@@ -14,3 +14,15 @@ git mv
 git rm					--> Si solo hacemos mv o rm en linux cambia el nombre en el directorio local pero no en el ÍNDICE
 
 git checkout nombrefich			--> Descarta cambios y vuelve al último commit
+
+
+git stash				--> Guarda las modificaciones actuales en una PILA
+
+-------------8<----------------------
+
+git push				--> Lleva del directorio local al GITHUB o nube (repositorio bare)
+git clone				--> Copia repositorio
+git fetch				--> Trae una rama de un repositorio de la nube o GITHUB a local, lo trae a una rama llamada origin/master, que no es tu master local, ojo.
+git pull				--> Es como hacer un FETCH y, además, un MERGE --> https://es.stackoverflow.com/questions/245/cu%C3%A1l-es-la-diferencia-entre-pull-y-fetch-en-git
+
+					Por ejemplo: git push https://github.com/kodrete/07.CFGM-SMR master
