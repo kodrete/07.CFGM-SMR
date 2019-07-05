@@ -50,6 +50,8 @@ git checkout nombre_rama/nombre_commit	--> Restaura en el directorio de trabajo 
 					--> HEAD siempre es un puntero al commit del directorio de trabajo, podemos consultarlo con "git show HEAD" o "git log HEAD"
 					--> Es decir, para cambiar de rama usamos CHECKOUT.
 
+git checkout -b nom_nueva_rama		--> Crea una nueva rama a partir del HEAD actual y cambia a ella en el directorio de trabajo.
+
 
 git reset nom_commit			--> Lleva el puntero HEAD al commit que le digamos (ANCESTRO), sirve para "rehacer" la historia de commits. PELIGROSO.
 					--> No pierdes los cambios hechos en el directorio de trabajo, solo mueves el puntero. ¿Para qué se usa entonces?
@@ -59,3 +61,11 @@ git reset nom_commit			--> Lleva el puntero HEAD al commit que le digamos (ANCES
 ------------------8<-----------------------
 
 git merge c1 c2				--> Integra dos commits, aunque lo normal es indicar nombres de rama. Recuerda, el nombre de rama es un puntero al último commit de esa rama.
+					--> Si genera conflictos no se hace commit, si no hay conflictos se hace autocommit. Los conflictos se ven con "GIT STATUS -S"
+					--> Si vemos que hay conflictos y queremos deshacer el merge usamos "GIT MERGE --ABORT" 
+					--> Los conflictos se resuelven a mano y, una vez solucionados, hacemos git commit. Podemos hacer "git commit -a" que es como hacer un "git add ." antes.
+					--> ES UNA BUENA PRÁCTICA HACER UNA RAMA NUEVA PARA INTEGRAR UN MERGE, LA PODEMOS LLAMAR MERGE_DE_TAL_Y_PASCUAL (con git checkout -b merge_tal_y_tal)
+					--> Por ejemplo, tenemos master Y desarrolloXX, hacemos nueva rama "merge_desarrolloX" con "git checkout -b" e integramos en ésta el MASTER con "git merge master"
+					--> Ahora, querremos integrar todo lo integrado en merge_tal_y_tal en MASTER, como ya está integrado se puede hacer de manera FAST-FORWARD.
+					--> FAST-FORWARD :: 1) Hacemos "git checkout master". 2) Hacemos "git merge merge_tal_y_tal" 3) GIT indicará que es un fast-forward
+
