@@ -69,3 +69,8 @@ git merge c1 c2				--> Integra dos commits, aunque lo normal es indicar nombres 
 					--> Ahora, querremos integrar todo lo integrado en merge_tal_y_tal en MASTER, como ya está integrado se puede hacer de manera FAST-FORWARD.
 					--> FAST-FORWARD :: 1) Hacemos "git checkout master". 2) Hacemos "git merge merge_tal_y_tal" 3) GIT indicará que es un fast-forward
 
+--------------------8<--------------------
+
+git rebase				--> TODO ESTO se simplifica con GIT REBASE
+					--> Sirve para hacer lineal una historia de commits que antes estaba en dos ramas separadas.
+
