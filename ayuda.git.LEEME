@@ -30,10 +30,28 @@ git pull				--> Es como hacer un FETCH y, además, un MERGE --> https://es.stack
 
 --------------------8<-----------------
 
+git branch				--> Muestra las ramas de u repositorio. El asterisco indica donde está el puntero HEAD (ver abajo, en la parte de CHECKOUT)
 - La rama MASTER se crea por defecto
 - El nombre de una rama es un puntero a su último commit (el numerajo random)
 - Podemos hacer commit de nuestro directorio de trabajo en cualquier rama compatible
 - Para crear una rama nueva (a partir de un commit) se usa GIT BRANCH
-- 
 
 git branch rama_nueva commit_existente	--> Crea una nueva rama a partir de un commit existente. Recuerda, un commit pertenece a una rama.
+
+--> Cuando integras dos ramas entonces es como si tuvieras un commit nuevo que pertenece a ambas (y las fusiona)  
+
+	rama1c1 -> rama1c2 -> rama1c3 -> (integración de rama1 en rama2)   \
+	rama2c1 -> rama2c2 -> rama2c3 -> rama2c4 [...]                     -> rama1c9 (este commit esta en rama2 pero también es sucesor de rama1c3)
+
+
+git show				--> Muestra los metadatos de una rama
+
+git checkout nombre_rama/nombre_commit	--> Restaura en el directorio de trabajo lo que hubiera en ese commit (¡¡OJO!! Pierdes los cambios no guardados)
+					--> HEAD siempre es un puntero al commit del directorio de trabajo, podemos consultarlo con "git show HEAD" o "git log HEAD"
+					--> Es decir, para cambiar de rama usamos CHECKOUT.
+
+
+git reset nombre_commit			--> Lleva el puntero HEAD al commit que le digamos (ANCESTRO), sirve para "rehacer" la historia de commits. PELIGROSO.
+					--> No pierdes los cambios hechos en el directorio de trabajo, solo mueves el puntero. ¿Para qué se usa entonces?
+					--> Por ejemplo, retrasar el puntero que estaba en rama1c23 a rama1c20 y vuelves a hacer "ADD" y "COMMIT", has fusionado rama1c21, rama1c22 y rama1c23 en rama1c20.
+					--> ¡¡¡¡¡OJO!!!!!! Si haces git reset --hard SÍ QUE PIERDES LOS CAMBIOS DEL DIRECTORIO DE TRABAJO, como si hicieras CHECKOUT del commit al que regresas.
