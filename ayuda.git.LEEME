@@ -23,6 +23,17 @@ git stash				--> Guarda las modificaciones actuales en una PILA
 git push				--> Lleva del directorio local al GITHUB o nube (repositorio bare)
 git clone				--> Copia repositorio
 git fetch				--> Trae una rama de un repositorio de la nube o GITHUB a local, lo trae a una rama llamada origin/master, que no es tu master local, ojo.
+					--> Si quieres ver esa rama oculta usa "GIT BRANCH -A"
 git pull				--> Es como hacer un FETCH y, además, un MERGE --> https://es.stackoverflow.com/questions/245/cu%C3%A1l-es-la-diferencia-entre-pull-y-fetch-en-git
 
 					Por ejemplo: git push https://github.com/kodrete/07.CFGM-SMR master
+
+--------------------8<-----------------
+
+- La rama MASTER se crea por defecto
+- El nombre de una rama es un puntero a su último commit (el numerajo random)
+- Podemos hacer commit de nuestro directorio de trabajo en cualquier rama compatible
+- Para crear una rama nueva (a partir de un commit) se usa GIT BRANCH
+- 
+
+git branch rama_nueva commit_existente	--> Crea una nueva rama a partir de un commit existente. Recuerda, un commit pertenece a una rama.
