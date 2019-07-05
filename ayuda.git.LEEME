@@ -51,7 +51,11 @@ git checkout nombre_rama/nombre_commit	--> Restaura en el directorio de trabajo 
 					--> Es decir, para cambiar de rama usamos CHECKOUT.
 
 
-git reset nombre_commit			--> Lleva el puntero HEAD al commit que le digamos (ANCESTRO), sirve para "rehacer" la historia de commits. PELIGROSO.
+git reset nom_commit			--> Lleva el puntero HEAD al commit que le digamos (ANCESTRO), sirve para "rehacer" la historia de commits. PELIGROSO.
 					--> No pierdes los cambios hechos en el directorio de trabajo, solo mueves el puntero. ¿Para qué se usa entonces?
 					--> Por ejemplo, retrasar el puntero que estaba en rama1c23 a rama1c20 y vuelves a hacer "ADD" y "COMMIT", has fusionado rama1c21, rama1c22 y rama1c23 en rama1c20.
 					--> ¡¡¡¡¡OJO!!!!!! Si haces git reset --hard SÍ QUE PIERDES LOS CAMBIOS DEL DIRECTORIO DE TRABAJO, como si hicieras CHECKOUT del commit al que regresas.
+
+------------------8<-----------------------
+
+git merge c1 c2				--> Integra dos commits, aunque lo normal es indicar nombres de rama. Recuerda, el nombre de rama es un puntero al último commit de esa rama.
