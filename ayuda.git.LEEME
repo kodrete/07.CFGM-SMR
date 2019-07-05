@@ -74,3 +74,7 @@ git merge c1 c2				--> Integra dos commits, aunque lo normal es indicar nombres 
 git rebase				--> TODO ESTO se simplifica con GIT REBASE
 					--> Sirve para hacer lineal una historia de commits que antes estaba en dos ramas separadas.
 
+-------------8<---------------------------
+
+git clone				--> Lo normal es crear los repositorios en GITHUB y luego clonarlos a local. P.ej: git clone https://github.com/kodrete/07.CFGM-SMR
+git remote				--> Creas "alias" de repositorios remotos con un nombre corto. p.ej: git remote add misEjJAVA https://github.com/kodrete/EjemplosJAVAA
