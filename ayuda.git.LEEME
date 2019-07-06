@@ -77,4 +77,33 @@ git rebase				--> TODO ESTO se simplifica con GIT REBASE
 -------------8<---------------------------
 
 git clone				--> Lo normal es crear los repositorios en GITHUB y luego clonarlos a local. P.ej: git clone https://github.com/kodrete/07.CFGM-SMR
+						--> Solo se clona la rama "MASTER".
+						--> CUANDO SE USA, ADEMÁS, DEFINE EL REMOTE "ORIGIN" CON LA URL QUE SE HA USADO PARA LA CLONACIÓN.
 git remote				--> Creas "alias" de repositorios remotos con un nombre corto. p.ej: git remote add misEjJAVA https://github.com/kodrete/EjemplosJAVAA
+
+----------------8<---------------------------
+
+FORK					--> Para "clonar" repositorios entre cuentas distintas.
+IMPORT REPOSITORY		--> Para hacer "copias" de repositorios dentro de la misma cuenta, útil por ejemplo, si creas una organización.
+
+-----------8<--------------------------------
+
+Tipos de ramas:
+	- master			--> La que tenemos en el directorio de trabajo apuntando a lo último.
+	- origin/master		--> La que apunta a la última versión del remote.
+	* REMOTES			--> Las que están en GitHub. Se ven con "git branch -r"
+	* TRACKING			--> Las que están sincronizadas entre local y GITHUB. Se ven con "git branch -vv". Rama local que se asocia a una rama remota para simplificar la sincronización entre ambas.
+	
+git fetch				--> Trae ramas REMOTAS al directorio local.
+git clone				--> Además de crear "MASTER", la hace rama TRACKING de "ORIGIN/MASTER". Recuerda, ORIGIN equivale a la URL del repositorio REMOTO.
+						--> Además, también define ramas (ramas = punteros a commits) "remote", tanto HEAD como MASTER. Se pueden ver con "git branch -a".
+						
+--------------------8<--------------------------
+
+No hay que confundir CHECKOUT con FETCH.
+							- Checkout --> Copia el contenido de una rama en el directorio de trabajo local.
+							- FETCH	   --> Trae una rama al repositorio, pero no hace nada con los contenidos del directorio local.
+										--> Si haces fetch de una rama remota la tendrás como ORIGIN/larama
+										--> Si haces branch de una rama cuyo nombre coincide con una REMOTE, la creará como TRACKING (con "git checkout -b")
+										--> Si hacemos checkout --> Copia una rama remota en una local "tracking" de la remota, si esta no esta creada todavía
+	
