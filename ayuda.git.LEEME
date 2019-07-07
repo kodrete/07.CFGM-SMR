@@ -3,7 +3,7 @@ git add pepito.txt			--> Añade este fichero al registro ÍNDICE
 git reset .				--> Quita del registro (si pones un punto quita todo, si pones el nombre de un fichero, solo ese)
 
 git commit -m "DESCRIPCION"		--> Genera un commit, una versión, una instantanea, un tag, ...
-git commit --amend -m "DESCRIPCION"	--> Corrige el commit anterior
+git commit --amend -m "DESCRIPCION"	--> Corrige el commit anterior, es decir, vuelves a hacer commit (con su add y tal) pero no crea uno nuevo, modifica el actual (o el anterior, como quieras verlo).
 
 git log					--> LOG de commits
 git status				--> Información del directorio y sus ficheros respecto a GIT
@@ -20,13 +20,19 @@ git stash				--> Guarda las modificaciones actuales en una PILA
 
 -------------8<----------------------
 
-git push				--> Lleva del directorio local al GITHUB o nube (repositorio bare)
-git clone				--> Copia repositorio
+git push nom_remoto nom_rama		--> Lleva del directorio local al GITHUB o nube (repositorio bare)
+git clone				--> Copia repositorio (VER ABAJO, TRABAJANDO CON REPOSITORIOS REMOTOS)
 git fetch				--> Trae una rama de un repositorio de la nube o GITHUB a local, lo trae a una rama llamada origin/master, que no es tu master local, ojo.
 					--> Si quieres ver esa rama oculta usa "GIT BRANCH -A"
 git pull				--> Es como hacer un FETCH y, además, un MERGE --> https://es.stackoverflow.com/questions/245/cu%C3%A1l-es-la-diferencia-entre-pull-y-fetch-en-git
 
-					Por ejemplo: git push https://github.com/kodrete/07.CFGM-SMR master
+					Por ejemplo: git push https://github.com/kodrete/07.CFGM-SMR master		--> Lleva la rama "master" local a la rama "master" del remote (origin).
+					Otra opción: git push origin master:corrected_tf_agenda				--> Lleva la rama "master" local a una nueva (si no existe) rama remota llamada corrected_tf_agenda.
+
+El PUSH trabaja con : (ref_specs)	--> git push nombre_remote rama_local:rama_remota				--> Subes a REMOTE tu rama "rama_local" a una rama que se llama "rama_remota".
+El FETCH también trabaja con : (ref_specs) --> git fetch https://github.com/kodrete/07.CFGM-SMR rama_remota:rama_local	--> Con esto, rama_local no será un TRACKING a rama_remota. Ojo, la rama master cuando he hecho CLONE sí sera TRACKING.
+
+¡¡¡OJO!! Si pones "git push https://github.com/kodrete/07.CFGM-SMR :rama_remota", como hemos dejado vacío la rama_local BORRA LA RAMA REMOTA llamada "rama_remota".
 
 --------------------8<-----------------
 
@@ -42,6 +48,9 @@ git branch rama_nueva commit_existente	--> Crea una nueva rama a partir de un co
 
 	rama1c1 -> rama1c2 -> rama1c3 -> (integración de rama1 en rama2)   \
 	rama2c1 -> rama2c2 -> rama2c3 -> rama2c4 [...]                     -> rama1c9 (este commit esta en rama2 pero también es sucesor de rama1c3)
+
+	** En principio, la rama1 no deja de existir, pero lo ideal es seguir el desarrollo por la rama2, ya que es donde se ha integrado y la que va a contener los siguientes commits.
+	*** Si quieres hacer una nueva rama, hazla a partir de rama2cXX, y luego la vuelves a "mergear" en la que sea la principal (que normalmente es "master").
 
 
 git show				--> Muestra los metadatos de una rama
@@ -71,10 +80,69 @@ git merge c1 c2				--> Integra dos commits, aunque lo normal es indicar nombres 
 
 --------------------8<--------------------
 
-git rebase				--> TODO ESTO se simplifica con GIT REBASE
+git rebase rama1 rama2			--> TODO ESTO se simplifica con GIT REBASE --> Integra varios commits entre dos ramas compatibles.
 					--> Sirve para hacer lineal una historia de commits que antes estaba en dos ramas separadas.
+						El grafo de commits es más fácil de seguir cuando se integra con rebase, ya que todos los commits 
+						de la rama lateral pasan a master y todo queda en master. En cambio se pierde algo de la historia 
+						del proyecto, porque desaparecen las ramas laterales donde se suelen desarrollar las 
+						nuevas funcionalidades. Rebase tiene además la	opción interactiva que permite rehacer la rama 
+						que se integra y sus commits. Por esta razón hay personas que prefieren el rebase frente al merge para integrar desarrollos.
+
+						https://git-scm.com/book/es/v1/Ramificaciones-en-Git-Reorganizando-el-trabajo-realizado
+
+Vamos a ilustrarlo con un ejemplo, tenemos:
+
+9eaa103 (HEAD -> master, origin/master, origin/HEAD) Add Mary tf
+71e69ce Add Eva tf
+1204dc8 Add Eva pending-tf
+f6e660e Add John tf
+
+Para fusionar los commits 71e69ce y 1204dc8 en el f6e660e usaremos:
+
+git rebase --interactive f6e660e	--> Quiere decir que, de este commit hacia arriba, los rehaga, pero lo podemos editar... (se lee de arriba a abajo)
+
+Editamos el archivo "INTERACTIVE" para que quede así:
+
+pick 1204dc8 Add Eva pending-tf		--> Sin modificar, haremos "rebase normal".
+squash 71e69ce Add Eva tf		--> Que fusione este commit
+edit 9eaa103 Add Mary tf		--> Que abra el editor en este commit, así podemos hacer cambios.
+
+
+**  La opción --amend (git rebase --amend) rehace el commit anterior, en lugar de crear uno nuevo
+
+** Con git rebase --continue hacemos el commit final fusionado (o lo que hayamos editado)
+
+Y al final tendríamos:
+
+3cd5e2a (HEAD -> master) Add Mary tf fixed		--> El "fixed" lo hemos añadido en el último paso, cuando hacemos edit, que nos permite editar, hacer add y el --amend.
+f3b63ca Add Eva tf integrated				--> El mensaje que dejamos cuando hacemos el "squash", nos ofrece todos los mensajes de los commits a fusionar, dejamos en una línea el que nos cuadre y podemos editarlo además.
+f6e660e Add John tf
 
 -------------8<---------------------------
 
+### TRABAJANDO CON REPOSITORIOS REMOTOS ###
+
 git clone				--> Lo normal es crear los repositorios en GITHUB y luego clonarlos a local. P.ej: git clone https://github.com/kodrete/07.CFGM-SMR
-git remote				--> Creas "alias" de repositorios remotos con un nombre corto. p.ej: git remote add misEjJAVA https://github.com/kodrete/EjemplosJAVAA
+					--> *** ES LA OPCIÓN MÁS RÁPIDA PARA TRABAJAR CON REPOSITORIO REMOTOS, HACES CLONE, Y LUEGO FETCH DE LA RAMA QUE TE INTERESE.
+git remote				--> Creas "alias" de repositorios remotos con un nombre corto. p.ej: git remote add misEjJAVA https://github.com/kodrete/EjemplosJAVA
+
+Ojo --> CLONE copia repositorios, FETCH trae ramas... ninguno de estos hace cambios en ficheros, para eso debes hacer "CHECKOUT".
+---------------8<------------------------
+
+FORK y PULL REQUEST para contribuir a repositorios ajenos:
+
+--> Haces FORK de un repositorio en tu cuenta, trabajas sobre él y luego...
+--> Con "pull request" mandas una rama a un repositorio. Si el dueño la considera OK la integrará.
+--> Si haces FORK desde GitHub directamente en tu repositorio "forkeado" te aparece un botón para que hagas un "new pull request", rellenas el formulario con la información y listo, se envía al dueño del repositorio original del que has hecho FORK.
+
+git push				--> Sin parámetros, lo que hace es actualizar todas las ramas TRACKING que haya en nuestro directorio local.
+
+EL RECEPTOR integrará la rama pull si le interesa, con pull
+
+git pull origin pull/num_pull/nombre_rama	--> "num_pull" es un número que identifica al pull_request y "nombre_rama" puede ser "head", por ejemplo.
+
+DESPUÉS HARÁ... 
+
+git push				--> Sin parámetros, que actualizará su rama TRACKING local a su repositorio origin (remoto).
+
+La parte del receptor se puede hacer también desde GitHub, más cómodo y ve los cambios y demás en modo gráfico.
